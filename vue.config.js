@@ -38,13 +38,22 @@ module.exports = {
       errors: true
     },
     proxy: {
-      "/api": {
+      "/acl": {
         /* 目标代理服务器地址 */
-        target: 'http://39.98.123.211:8170/',
+        target: 'http://39.98.123.211:8170',
         /* 允许跨域 */
         changeOrigin: true,
         pathRewrite: {
-          "^/api": ""
+          "^/acl": ""
+        }
+      },
+      "/product": {
+        /* 目标代理服务器地址 */
+        target: 'http://39.98.123.211:8510',
+        /* 允许跨域 */
+        changeOrigin: true,
+        pathRewrite: {
+          "^/product": ""
         }
       },
     },
