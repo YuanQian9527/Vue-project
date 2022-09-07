@@ -31,7 +31,7 @@ function unregisterRoutes() {
   })
 }
 
-// for mock server
+// for mock server VUE_APP_MOCK_API
 const responseFake = (url, type, respond) => {
   return {
     url: new RegExp(`${process.env.VUE_APP_BASE_API}${url}`),

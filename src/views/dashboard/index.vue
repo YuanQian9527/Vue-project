@@ -1,12 +1,16 @@
 <template>
   <div>
-    首页
     <Card />
+    <!-- 数据表格展示 -->
+    <Sale />
+    <Observe />
   </div>
 </template>
 
 <script>
 import Card from "./card/index.vue";
+import Sale from "./sale/index.vue";
+import Observe from "./observe/index.vue";
 export default {
   name: "Dashboard",
   data() {
@@ -14,6 +18,8 @@ export default {
   },
   components: {
     Card,
+    Sale,
+    Observe,
   },
 };
 </script>
