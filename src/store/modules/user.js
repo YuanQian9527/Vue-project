@@ -53,17 +53,28 @@ const mutations = {
 }
 //计算比较异步路由
 const computedRes = (asyncRoutes, routes) => {
+  console.log(1,asyncRoutes)
+  console.log(2,routes)
   //过滤当前用户的权限展示的异步路由
   return asyncRoutes.filter(item => {
-    //后端返回的数组中如果没有这个元素返回值是-1
-    if (routes.indexOf(item.name) != -1) {
+    // console.log(item)
+    //后端返回的数组中如果没有这个元素返回值是-1 //routes 这里routes是个对象数组 
+    if (routes.includes(item.name)) {
       //递归 可能有二级,三级路由
-      if (item.children && children.length) {
+      if (item.children && item.children.length) {
         item.children = computedRes(item.children, routes)
       }
       return true
     }
   })
+  // // 数组克隆成对象
+  // return function clone(arr) {
+  //   var obj = {};
+  //   for (var key in arr) {
+  //     obj[key] = arr[key]
+  //   }
+  //   return obj;
+  // }
 }
 const actions = {
   // user login 处理登录
@@ -103,7 +114,7 @@ const actions = {
         // commit('SET_NAME', name)
         // commit('SET_AVATAR', avatar)
         commit('SET_USERINFO', data)
-        // commit('SET_RESASYNCROUTERS', computedRes(cloneDeep(asyncRoutes), data.routes))
+        commit('SET_RESASYNCROUTERS', computedRes(cloneDeep(asyncRoutes), data.routes))
         resolve(data)
       }).catch(error => {
         reject(error)
