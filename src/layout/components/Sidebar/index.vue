@@ -33,7 +33,7 @@ export default {
     routes() {
       //这里遍历的是常量路由
       // return this.$router.options.routes
-      return this.$store.state.user.allAsyncRouters
+      return this.$store.getters.allAsyncRouters
     },
     activeMenu() {
       const route = this.$route

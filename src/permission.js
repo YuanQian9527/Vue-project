@@ -5,12 +5,12 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-
+import Router from 'vue-router'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -25,6 +25,7 @@ router.beforeEach(async(to, from, next) => {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
+
     } else {
       const hasGetUserInfo = store.getters.name
       if (hasGetUserInfo) {
@@ -33,8 +34,14 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           await store.dispatch('user/getInfo')
-
-          next()
+          //从仓库的计算属性拿出最终权限
+          const aaa = store.getters.allAsyncRouters
+          console.log(aaa)
+          //解决路由name重复警告,如果报Router undefined需要在上面引入import Router from 'vue-router'
+          router.matcher = new Router().matcher
+          //再次添加进router里
+          router.addRoutes(aaa)
+          next({...to,replace:true})
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')

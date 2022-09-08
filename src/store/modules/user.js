@@ -29,9 +29,11 @@ const mutations = {
   },
   SET_RESASYNCROUTERS: (state, resAsyncRouters) => {
     state.resAsyncRouters = resAsyncRouters
+    //合并比对结果路由 常量路由和任意路由作为该用户的最终路由数组
     state.allAsyncRouters = constantRoutes.concat(state.resAsyncRouters, anyRouters)
-    //给路由器添加新的路由
+    //给路由器添加最终路由
     router.addRoutes(state.allAsyncRouters)
+    
   },
   // SET_NAME: (state, name) => {
   //   state.name = name
@@ -53,8 +55,8 @@ const mutations = {
 }
 //计算比较异步路由
 const computedRes = (asyncRoutes, routes) => {
-  console.log(1,asyncRoutes)
-  console.log(2,routes)
+  // console.log(1,asyncRoutes)
+  // console.log(2,routes)
   //过滤当前用户的权限展示的异步路由
   return asyncRoutes.filter(item => {
     // console.log(item)
@@ -104,6 +106,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
+      //发请求
       getInfo(state.token).then(response => {
         const { data } = response
         console.log(data)
